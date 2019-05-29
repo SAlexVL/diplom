@@ -220,18 +220,21 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
   // image
-
   // function stopDefAction(evt) {
   //   evt.preventDefault();
   // }
     
-  // document.querySelector('.works_prim').addEventListener(
+  // let worksNone = document.querySelectorAll('.works_prim');
+
+  // for (let z = 0; z < worksNone.length; z++) {
+  //   worksNone[z].addEventListener(
   //     'click', stopDefAction, false
-  // );
+  //   );
+  // }
 
-  // let imageClick = document.querySelector('works_click');
 
-  // imageClick.preventDefault();
+  // let imageClick = document.querySelector('.works_click'),
+  //     overlayImg = document.querySelector('.popup_img');
 
   // let bindImg = (overlayStatus, overflowStatus) => {
   //   overlay.style.display.open = overlayStatus;
@@ -243,8 +246,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // for (let i = 0; i < imageClick.length; i ++) {
       // if (target.classList.contains('works_click')) {
-      //       overlay.style.display.open = overlayStatus;
-      //       document.body.style.overflow = target;
+            // overlay.style.display.open = overlayStatus;
+            // document.body.style.overflow = target;
+            // overlayImg.style.display = 'flex';
       // } 
     // }
 
@@ -323,8 +327,8 @@ window.addEventListener('DOMContentLoaded', function() {
       
               // обнуление input'ов
               let clearInput = () => {
-                for (let i = 0; i < input.length; i++) {
-                  input[i].value = '';
+                for (let i = 0; i < inputForm.length; i++) {
+                  inputForm[i].value = '';
                 }                  
               };
 
@@ -341,7 +345,57 @@ window.addEventListener('DOMContentLoaded', function() {
       for (let k = 0; k < form.length; k++) {
         sendForm(form[k]);
       } 
+
+
+      // calc
+      // let calcIcons = document.querySelector('.balcon_icons'),
+      //     calcItem = document.querySelectorAll('.balcon_item'),
+      //     calcContent = document.querySelectorAll('#balcon_content');
+
+      //     let hideCalcCont = (a) => {
+      //       for (let i = a; i < calcContent.length; i++) {
+      //         calcContent[i].classList.remove('show');
+      //         calcContent[i].classList.add('hide');
+      //       }   
+      //     };
+      //     hideCalcCont(1);
       
-      // sendForm(form);
+      //     let showCalcCont = (b) => {
+      //       if (calcContent[b].classList.contains('hide')) {
+      //         calcContent[b].classList.remove('hide');
+      //         calcContent[b].classList.add('show');
+      //       }   
+      //     };
+      
+          // let afterClickTabClass = (d) => {
+          //   if (!tabOtd[d].classList.contains('after_click')) {        
+          //     tabOtd[d].classList.add('after_click');
+          //   }
+          // };
+      
+          // let noAfterClickTabClass = () => {
+          //     for (let i = 0; i < tabOtd.length; i++) {
+          //       tabOtd[i].classList.remove('after_click');
+          //     }                
+          // };
+      
+          // for (let l = 0; l < calcItem.length; l++) {
+          //   calcIcons.addEventListener('click', (event) => {
+          //     let target = event.target;
+          //     if (target && target.classList.contains(calcIcons[l]) ) {
+          //       for (let i = 0; i < calcIcons[l].length; i++) {
+          //         if (target == calcIcons[i]) {
+          //           hideCalcCont(0);
+          //           showCalcCont(i);
+          //           // noAfterClickTabClass();
+          //           // afterClickTabClass(i);
+          //           break;
+          //         }
+          //       }
+          //     }
+          //     });
+          // }
+
+
 
 });
