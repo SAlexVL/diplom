@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', function() {
         }
       });
     }
-    // коне табы с окнами (п.5)
+    // конец табы с окнами (п.5)
     // ---------------------------------
     // табы с отделкой (п.7)
     let tabOtd = document.querySelectorAll('.decoration_item-block'),
@@ -128,11 +128,11 @@ window.addEventListener('DOMContentLoaded', function() {
     let target = e.target;
 
     if (target.classList.contains('phone_link')) {
-      bindModal('flex', 'hidden' ,'hidden', 'hidden', target);
+      bindModal('flex', 'hidden' ,'hidden', target);
     } else if (target.classList.contains('popup_calc_btn')) {
-      bindModal('hidden', 'flex' ,'hidden', 'hidden', target);
+      bindModal('hidden', 'flex' ,'hidden', target);
       } else if (target.classList.contains('popup_engineer_btn')) {
-      bindModal('hidden', 'hidden' , 'flex' ,'hidden', target);
+        bindModal('hidden', 'hidden' , 'flex' , target);
         }
 
     if (target.classList.contains('popup_close') || target.classList.contains('popup_calc_close') || 
@@ -215,6 +215,133 @@ window.addEventListener('DOMContentLoaded', function() {
   };
   setClockF('timer', `${deadline}`);
   //end timer
-  //-----------------------------------------------
+  //------------------------------------------------------------
+
+
+
+  // image
+
+  // function stopDefAction(evt) {
+  //   evt.preventDefault();
+  // }
+    
+  // document.querySelector('.works_prim').addEventListener(
+  //     'click', stopDefAction, false
+  // );
+
+  // let imageClick = document.querySelector('works_click');
+
+  // imageClick.preventDefault();
+
+  // let bindImg = (overlayStatus, overflowStatus) => {
+  //   overlay.style.display.open = overlayStatus;
+  //   document.body.style.overflow = overflowStatus;
+  // };
+
+  // document.body.addEventListener('click', (e) => {
+  //   let target = e.target;
+
+    // for (let i = 0; i < imageClick.length; i ++) {
+      // if (target.classList.contains('works_click')) {
+      //       overlay.style.display.open = overlayStatus;
+      //       document.body.style.overflow = target;
+      // } 
+    // }
+
+    // if (target.classList.contains('popup_close') || target.classList.contains('popup_calc_close') || 
+    //     target.classList.contains('popup') || target.classList.contains('popup_calc') || 
+    //     target.classList.contains('popup_engineer')) {
+    //   bindModal('none', 'none', 'none', '');
+    // }
+  // });
+
+
+  
+  //-------------------------------------------------------------------
+  // Form
+  //обработчик input tel
+  document.body.addEventListener('input', e => {
+    let target = e.target;
+      if(target.matches(`input[type$='tel']`)) {
+        target.value = '+' +target.value.replace(/[^\d]/g, '').slice(0, 11);  
+              
+        if (target.value.length == 1) {target.value = '';}
+      }
+  });
+  // объект выводимых сообщений
+  let message = {
+    loading: 'Идет отправка...',
+    success: 'Отправлено!',
+    failure: 'Ошибка!'
+  },    // остальные переменные
+      form = document.querySelectorAll('.form'),
+      inputForm = [];
+      for (let j = 0; j < form.length; j++) {
+      let input = form[j].querySelector('form_input');
+          inputForm[j] = input;
+      }
+      
+      let statusMessage = document.createElement('div');
+
+      statusMessage.classList.add('status');
+
+      // обработка submit 
+      let sendForm = (elemF) => {
+
+        elemF.addEventListener('submit', (event) => {
+          event.preventDefault();
+          elemF.appendChild(statusMessage);
+          let formData = new FormData(elemF);
+
+          let postData = (data) => {
+            return new Promise(function(resolve,reject) {
+              let request = new XMLHttpRequest();
+              request.open('POST', 'server.php');
+              request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      
+              let obj = {};
+              formData.forEach(function(value, key) {
+                obj[key] = value;
+              });
+              let json = JSON.stringify(obj);
+              
+              request.send(json);           
+
+              // текст в классе
+              request.addEventListener('readystatechange', () => {
+                if (request.readyState < 4) {
+                resolve(); // loading;
+                } else if (request.readyState === 4 && request.status == 200) {
+                  resolve();// success;
+                } else {
+                  reject();// failure;
+                }
+              });//readystatechange
+
+            });//Promise
+          }; //postData
+      
+              // обнуление input'ов
+              let clearInput = () => {
+                for (let i = 0; i < input.length; i++) {
+                  input[i].value = '';
+                }                  
+              };
+
+              postData(formData)
+                .then(() => statusMessage.innerHTML = message.loading)
+                .then(() => statusMessage.innerHTML = message.success)
+                .catch(() => statusMessage.innerHTML = message.failure)
+                .then(clearInput);
+
+        }); //sumbit
+
+      };//sendForm
+
+      for (let k = 0; k < form.length; k++) {
+        sendForm(form[k]);
+      } 
+      
+      // sendForm(form);
 
 });
