@@ -216,51 +216,33 @@ window.addEventListener('DOMContentLoaded', function() {
   setClockF('timer', `${deadline}`);
   //end timer
   //------------------------------------------------------------
-
-
-
   // image
-  // function stopDefAction(evt) {
-  //   evt.preventDefault();
-  // }
-    
-  // let worksNone = document.querySelectorAll('.works_prim');
-
-  // for (let z = 0; z < worksNone.length; z++) {
-  //   worksNone[z].addEventListener(
-  //     'click', stopDefAction, false
-  //   );
-  // }
-
-
-  // let imageClick = document.querySelector('.works_click'),
-  //     overlayImg = document.querySelector('.popup_img');
-
-  // let bindImg = (overlayStatus, overflowStatus) => {
-  //   overlay.style.display.open = overlayStatus;
-  //   document.body.style.overflow = overflowStatus;
-  // };
-
-  // document.body.addEventListener('click', (e) => {
-  //   let target = e.target;
-
-    // for (let i = 0; i < imageClick.length; i ++) {
-      // if (target.classList.contains('works_click')) {
-            // overlay.style.display.open = overlayStatus;
-            // document.body.style.overflow = target;
-            // overlayImg.style.display = 'flex';
-      // } 
-    // }
-
-    // if (target.classList.contains('popup_close') || target.classList.contains('popup_calc_close') || 
-    //     target.classList.contains('popup') || target.classList.contains('popup_calc') || 
-    //     target.classList.contains('popup_engineer')) {
-    //   bindModal('none', 'none', 'none', '');
-    // }
-  // });
+  let classImg = document.querySelectorAll('.works_click');
+  // нажатие на фотку
+  for (let i = 0; i < classImg.length; i++) {
+    classImg[i].addEventListener('click', (e) => {
+      let target = e.target;
+      if (target.classList.contains('works_click')) {
+        let div = document.createElement('div'),
+            divImg = document.createElement('img'); 
+        div.appendChild(divImg);
+        div.classList.add('overlayImg');    
+        divImg.classList.add('myimage');     
+        divImg.src = 'img/our_works/big_img/'+(i+1)+'.png';     
+        console.log(div);
+        document.body.appendChild(div);
+        // нажатие на подложку
+        div.addEventListener('click', (e) => {
+          let target = e.target;
+          if (target.classList.contains('overlayImg')) {
+            div.classList.add('hidden');
+          }  
+        });// overlayImg
+      }  //
+    });// classImg
+  }
 
 
-  
   //-------------------------------------------------------------------
   // Form
   //обработчик input tel
@@ -328,7 +310,7 @@ window.addEventListener('DOMContentLoaded', function() {
               // обнуление input'ов
               let clearInput = () => {
                 for (let i = 0; i < inputForm.length; i++) {
-                  inputForm[i].value = '';
+                  inputForm[i].value = ' ';
                 }                  
               };
 
@@ -336,7 +318,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 .then(() => statusMessage.innerHTML = message.loading)
                 .then(() => statusMessage.innerHTML = message.success)
                 .catch(() => statusMessage.innerHTML = message.failure)
-                .then(clearInput);
+                .then(this.clearInput);
 
         }); //sumbit
 
@@ -346,26 +328,33 @@ window.addEventListener('DOMContentLoaded', function() {
         sendForm(form[k]);
       } 
 
-
       // calc
-      // let calcIcons = document.querySelector('.balcon_icons'),
-      //     calcItem = document.querySelectorAll('.balcon_item'),
-      //     calcContent = document.querySelectorAll('#balcon_content');
 
-      //     let hideCalcCont = (a) => {
-      //       for (let i = a; i < calcContent.length; i++) {
-      //         calcContent[i].classList.remove('show');
-      //         calcContent[i].classList.add('hide');
-      //       }   
-      //     };
-      //     hideCalcCont(1);
-      
-      //     let showCalcCont = (b) => {
-      //       if (calcContent[b].classList.contains('hide')) {
-      //         calcContent[b].classList.remove('hide');
-      //         calcContent[b].classList.add('show');
-      //       }   
-      //     };
+      //     popCalcCont0 = document.querySelector('.popup_calc_content #type1'),
+      //     popCalcCont1 = document.querySelector('.popup_calc_content #type2'),
+      //     popCalcCont2 = document.querySelector('.popup_calc_content #type3'),
+      //     popCalcCont3 = document.querySelector('.popup_calc_content #type4');      
+
+      //     for (let i = 0; i < calcItem.length; i++) {
+      //       (function(i) {
+      //         let item = calcItem[i];
+      //         item.onclick = function () {
+      //           for (let j = 0; j < calcContent.length; j++) {
+      //             let opacity = window.getComputedStyle(calcContent[j]).opacity;
+      //             let display = window.getComputedStyle(popCalcCont[j]).display;
+      //             // popCalcCont.style.display = 'none';
+      //             // popCalcCont2.style.display = 'inline-block';
+      //             if (opacity == "1") {
+      //               calcContent[j].style.opacity = "0";
+      //               popCalcCont[j].style.display = "none";
+      //             }
+      //           }
+      //           calcContent[i].style.opacity = "1";
+      //           // popCalcCont[i].style.display = "inline-block";
+      //         }
+      //       })(i);
+      //     }
+
       
           // let afterClickTabClass = (d) => {
           //   if (!tabOtd[d].classList.contains('after_click')) {        
@@ -378,23 +367,40 @@ window.addEventListener('DOMContentLoaded', function() {
           //       tabOtd[i].classList.remove('after_click');
           //     }                
           // };
+
+          let calcItem = document.querySelectorAll('.balcon_item'),
+              calcContent = document.querySelectorAll('.balcon_content'),
+              calcIcons = document.querySelector('.balcon_icons');     
+
+          let hideCalcCont = (a) => {
+            for (let i = a; i < calcContent.length; i++) {
+              calcContent[i].classList.remove('show');
+              calcContent[i].classList.add('hide');
+            }   
+          };
+          hideCalcCont(1);
       
-          // for (let l = 0; l < calcItem.length; l++) {
-          //   calcIcons.addEventListener('click', (event) => {
-          //     let target = event.target;
-          //     if (target && target.classList.contains(calcIcons[l]) ) {
-          //       for (let i = 0; i < calcIcons[l].length; i++) {
-          //         if (target == calcIcons[i]) {
-          //           hideCalcCont(0);
-          //           showCalcCont(i);
-          //           // noAfterClickTabClass();
-          //           // afterClickTabClass(i);
-          //           break;
-          //         }
-          //       }
-          //     }
-          //     });
-          // }
+          let showCalcCont = (b) => {
+            if (calcContent[b].classList.contains('hide')) {
+              calcContent[b].classList.remove('hide');
+              calcContent[b].classList.add('show');
+            }   
+          };
+
+            calcIcons.addEventListener('click', (event) => {
+              let target = event.target;
+              if (target && target.classList.contains('balcon_item') ) {
+                for (let i = 0; i < calcItem.length; i++) {
+                  if (target == calcItem[i]) {
+                    hideCalcCont(0);
+                    showCalcCont(i);
+                    // noAfterClickTabClass();
+                    // afterClickTabClass(i);
+                    break;
+                  }
+                }
+              }
+              });
 
 
 
